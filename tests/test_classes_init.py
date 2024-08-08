@@ -1,15 +1,62 @@
-def test_init_product_class(products_iphon):
-    assert products_iphon.name == "Iphone 15"
-    assert products_iphon.description == "512GB, Gray space"
-    assert products_iphon.price == 210000.0
-    assert products_iphon.quantity == 8
+import pytest
+
+from src.category_class import Category
+from src.product_class import Product
 
 
-def test_init_category_class(class_smartphon):
-    assert class_smartphon.name == "Смартфоны"
-    assert (
-        class_smartphon.description
-        == """Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни"""
+def test_new_product():
+    product_data = {
+        "name": "Тестовый продукт",
+        "description": "Описание тестового продукта",
+        "price": 99.99,
+        "quantity": 5,
+    }
+    product = Product.new_product(product_data)
+
+    assert product.name == "Тестовый продукт"
+    assert product.description == "Описание тестового продукта"
+    assert product.get_price() == 99.99
+    assert product.quantity == 5
+
+
+def test_set_price_valid():
+    product = Product("Тест", "Описание теста", 50.0, 10)
+    product.set_price(75.0)
+    assert product.get_price() == 75.0
+
+
+def test_set_price_invalid():
+    product = Product("Тест", "Описание теста", 50.0, 10)
+
+    with pytest.raises(ValueError, match="Цена не должна быть нулевая или отрицательная"):
+        product.set_price(-10)
+
+    with pytest.raises(ValueError, match="Цена не должна быть нулевая или отрицательная"):
+        product.set_price(0)
+
+
+def test_get_price():
+    product = Product("Тест", "Описание теста", 50.0, 10)
+    assert product.get_price() == 50.0
+
+
+# Тесты класса Category
+def test_initial_category_count(setup_category):
+    """Тестируем начальное количество категорий."""
+    assert Category.category_count == 1
+
+
+def test_add_product(setup_category):
+    """Тестируем добавление нового продукта."""
+    product3 = {"name": "Планшет", "price": 15000, "quantity": 5}
+    setup_category.add_product(product3)
+    assert setup_category.products_list.endswith("Название продукта: Планшет, 15000 руб. Остаток: 5 шт.")
+
+
+def test_products_list(setup_category):
+    """Тестируем вывод списка продуктов."""
+    expected_output = (
+        "Название продукта: Телефон, 8000 руб. Остаток: 15 шт.\n"
+        "Название продукта: Ноутбук, 50000 руб. Остаток: 7 шт."
     )
-    assert class_smartphon.product_count == 3
-    assert class_smartphon.category_count == 1
+    assert setup_category.products_list == expected_output

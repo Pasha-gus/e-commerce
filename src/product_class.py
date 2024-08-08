@@ -3,11 +3,31 @@ class Product:
 
     name: str
     description: str
-    price: float
     quantity: int
 
     def __init__(self, name: str, description: str, price: float, quantity: int):
         self.name = name
         self.description = description
-        self.price = price
+        self.__price = price
         self.quantity = quantity
+
+    @classmethod
+    def new_product(cls, product_data: dict):
+        """Класс-метод для создания нового продукта
+        product_data: словарь с параметрами продукта
+        return: объект класса Product"""
+        name = product_data.get("name")
+        description = product_data.get("description")
+        price = product_data.get("price")
+        quantity = product_data.get("quantity")
+
+        return cls(name, description, price, quantity)
+
+    def get_price(self):
+        return self.__price
+
+    def set_price(self, price: float):
+        if price > 0:
+            self.__price = price
+        else:
+            raise ValueError("Цена не должна быть нулевая или отрицательная")

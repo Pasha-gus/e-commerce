@@ -15,29 +15,29 @@ def test_new_product():
 
     assert product.name == "Тестовый продукт"
     assert product.description == "Описание тестового продукта"
-    assert product.get_price() == 99.99
+    assert product.price == 99.99  # Изменено с get_price() на price
     assert product.quantity == 5
 
 
 def test_set_price_valid():
     product = Product("Тест", "Описание теста", 50.0, 10)
-    product.set_price(75.0)
-    assert product.get_price() == 75.0
+    product.price = 75.0  # Изменено с set_price() на price
+    assert product.price == 75.0  # Изменено с get_price() на price
 
 
 def test_set_price_invalid():
     product = Product("Тест", "Описание теста", 50.0, 10)
 
     with pytest.raises(ValueError, match="Цена не должна быть нулевая или отрицательная"):
-        product.set_price(-10)
+        product.price = -10  # Изменено с set_price() на price
 
     with pytest.raises(ValueError, match="Цена не должна быть нулевая или отрицательная"):
-        product.set_price(0)
+        product.price = 0  # Изменено с set_price() на price
 
 
 def test_get_price():
     product = Product("Тест", "Описание теста", 50.0, 10)
-    assert product.get_price() == 50.0
+    assert product.price == 50.0  # Изменено с get_price() на price
 
 
 # Тесты класса Category

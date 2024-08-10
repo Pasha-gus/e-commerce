@@ -23,10 +23,14 @@ class Product:
 
         return cls(name, description, price, quantity)
 
-    def get_price(self):
+    @property
+    def price(self):
+        """Возвращает цену товара"""
         return self.__price
 
-    def set_price(self, price: float):
+    @price.setter
+    def price(self, price: float):
+        """Задает цену товара"""
         if price > 0:
             self.__price = price
         else:

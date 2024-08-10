@@ -15,14 +15,14 @@ def test_new_product():
 
     assert product.name == "Тестовый продукт"
     assert product.description == "Описание тестового продукта"
-    assert product.price == 99.99  # Изменено с get_price() на price
+    assert product.price == 99.99
     assert product.quantity == 5
 
 
 def test_set_price_valid():
     product = Product("Тест", "Описание теста", 50.0, 10)
-    product.price = 75.0  # Изменено с set_price() на price
-    assert product.price == 75.0  # Изменено с get_price() на price
+    product.price = 75.0
+    assert product.price == 75.0
 
 
 def test_set_price_invalid():

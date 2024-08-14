@@ -11,16 +11,19 @@ class Product:
         self.__price = price
         self.quantity = quantity
 
+    def __str__(self):
+        return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other):
+        return self.__price * self.quantity + other.__price * other.quantity
+
     @classmethod
     def new_product(cls, product_data: dict):
-        """Класс-метод для создания нового продукта
-        product_data: словарь с параметрами продукта
-        return: объект класса Product"""
+        """Класс-метод для создания нового продукта"""
         name = product_data.get("name")
         description = product_data.get("description")
         price = product_data.get("price")
         quantity = product_data.get("quantity")
-
         return cls(name, description, price, quantity)
 
     @property

@@ -48,15 +48,45 @@ def test_initial_category_count(setup_category):
 
 def test_add_product(setup_category):
     """Тестируем добавление нового продукта."""
-    product3 = {"name": "Планшет", "price": 15000, "quantity": 5}
+    product3 = Product.new_product({"name": "Планшет", "description": "Таблетка", "price": 15000, "quantity": 5})
     setup_category.add_product(product3)
-    assert setup_category.products_list.endswith("Название продукта: Планшет, 15000 руб. Остаток: 5 шт.")
+    assert setup_category.products_list.endswith("Планшет, 15000 руб. Остаток: 5 шт.")
 
 
 def test_products_list(setup_category):
     """Тестируем вывод списка продуктов."""
-    expected_output = (
-        "Название продукта: Телефон, 8000 руб. Остаток: 15 шт.\n"
-        "Название продукта: Ноутбук, 50000 руб. Остаток: 7 шт."
-    )
+    expected_output = "Телефон, 8000 руб. Остаток: 15 шт.\n" "Ноутбук, 50000 руб. Остаток: 7 шт."
     assert setup_category.products_list == expected_output
+
+
+def test_addition_of_two_products():
+    """Тестируем сложение двух продуктов."""
+    product1 = Product("Телефон", "Смартфон", 8000, 15)
+    product2 = Product("Ноутбук", "Игровой ноутбук", 50000, 7)
+
+    total_cost = product1 + product2
+    expected_cost = (product1.price * product1.quantity) + (product2.price * product2.quantity)
+
+    assert total_cost == expected_cost
+
+
+def test_addition_of_product_and_zero_quantity():
+    """Тестируем сложение продукта с продуктом, у которого ноль в количестве."""
+    product1 = Product("Телефон", "Смартфон", 8000, 15)
+    product2 = Product("Планшет", "Таблетка", 15000, 0)
+
+    total_cost = product1 + product2
+    expected_cost = product1.price * product1.quantity
+
+    assert total_cost == expected_cost
+
+
+def test_addition_of_two_products_with_zero_quantity():
+    """Тестируем сложение двух продуктов, у которых ноль в количестве."""
+    product1 = Product("Телефон", "Смартфон", 8000, 0)
+    product2 = Product("Ноутбук", "Игровой ноутбук", 50000, 0)
+
+    total_cost = product1 + product2
+    expected_cost = 0
+
+    assert total_cost == expected_cost

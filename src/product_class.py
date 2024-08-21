@@ -15,7 +15,10 @@ class Product:
         return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other):
-        return self.__price * self.quantity + other.__price * other.quantity
+        if isinstance(self, type(other)):
+            return self.__price * self.quantity + other.__price * other.quantity
+        else:
+            raise TypeError("Товары должны быть из одинаковых классов продуктов")
 
     @classmethod
     def new_product(cls, product_data: dict):
@@ -38,3 +41,40 @@ class Product:
             self.__price = price
         else:
             raise ValueError("Цена не должна быть нулевая или отрицательная")
+
+
+class Smartphone(Product):
+
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        efficiency: str,
+        model: str,
+        memory: str,
+        color: str,
+    ):
+        super().__init__(name, description, price, quantity)
+        self.efficiency = efficiency
+        self.model = model
+        self.memory = memory
+        self.color = color
+
+
+class LawnGrass(Product):
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        country: str,
+        germination_period: int,
+        color: str,
+    ):
+        super().__init__(name, description, price, quantity)
+        self.country = country
+        self.germination_period = germination_period
+        self.color = color

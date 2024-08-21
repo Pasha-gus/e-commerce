@@ -1,3 +1,6 @@
+from src.product_class import Product
+
+
 class Category:
     """Класс для определения категорий"""
 
@@ -17,8 +20,11 @@ class Category:
 
     def add_product(self, product):
         """Добавляет один продукт в категорию и обновляет счетчик товаров."""
-        self.__products.append(product)
-        Category.product_count += 1
+        if isinstance(product, Product):
+            self.__products.append(product)
+            Category.product_count += 1
+        else:
+            raise ValueError("Можно добавлять только объекты класса Product или его подклассов.")
 
     @property
     def products_list(self):

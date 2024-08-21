@@ -1,7 +1,7 @@
 import pytest
 
 from src.category_class import Category
-from src.product_class import Product
+from src.product_class import LawnGrass, Product, Smartphone
 
 
 def test_new_product():
@@ -90,3 +90,16 @@ def test_addition_of_two_products_with_zero_quantity():
     expected_cost = 0
 
     assert total_cost == expected_cost
+
+
+def test_add_product_invalid_type(setup_category):
+    """Тестируем добавление объекта недопустимого типа."""
+    with pytest.raises(ValueError, match="Можно добавлять только объекты класса Product или его подклассов."):
+        setup_category.add_product("Не продукт")  # Добавляем строку
+
+
+def test_add_product_valid_type(setup_category):
+    """Тестируем добавление объекта допустимого типа (например, подкласса Product)."""
+    smartphone = Smartphone("Samsung Galaxy", "Смартфон Samsung", 70000, 5, "Snapdragon", "S21", "128 ГБ", "черный")
+    setup_category.add_product(smartphone)  # Это должно сработать
+    assert setup_category.products_list.endswith("Samsung Galaxy, 70000 руб. Остаток: 5 шт.")

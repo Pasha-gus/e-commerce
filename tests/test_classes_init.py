@@ -1,7 +1,7 @@
 import pytest
 
 from src.category_class import Category
-from src.product_class import LawnGrass, Product, Smartphone
+from src.product_class import Product, Smartphone
 
 
 def test_new_product():
@@ -103,3 +103,8 @@ def test_add_product_valid_type(setup_category):
     smartphone = Smartphone("Samsung Galaxy", "Смартфон Samsung", 70000, 5, "Snapdragon", "S21", "128 ГБ", "черный")
     setup_category.add_product(smartphone)  # Это должно сработать
     assert setup_category.products_list.endswith("Samsung Galaxy, 70000 руб. Остаток: 5 шт.")
+
+
+def test_mixin_confirmation():
+    product1 = Product("Продукт1", "Описание продукта", 1200, 10)
+    assert repr(product1) == "Product(Продукт1, Описание продукта, 1200, 10)"

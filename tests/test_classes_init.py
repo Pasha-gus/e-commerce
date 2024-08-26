@@ -70,28 +70,6 @@ def test_addition_of_two_products():
     assert total_cost == expected_cost
 
 
-def test_addition_of_product_and_zero_quantity():
-    """Тестируем сложение продукта с продуктом, у которого ноль в количестве."""
-    product1 = Product("Телефон", "Смартфон", 8000, 15)
-    product2 = Product("Планшет", "Таблетка", 15000, 0)
-
-    total_cost = product1 + product2
-    expected_cost = product1.price * product1.quantity
-
-    assert total_cost == expected_cost
-
-
-def test_addition_of_two_products_with_zero_quantity():
-    """Тестируем сложение двух продуктов, у которых ноль в количестве."""
-    product1 = Product("Телефон", "Смартфон", 8000, 0)
-    product2 = Product("Ноутбук", "Игровой ноутбук", 50000, 0)
-
-    total_cost = product1 + product2
-    expected_cost = 0
-
-    assert total_cost == expected_cost
-
-
 def test_add_product_invalid_type(setup_category):
     """Тестируем добавление объекта недопустимого типа."""
     with pytest.raises(ValueError, match="Можно добавлять только объекты класса Product или его подклассов."):
@@ -108,3 +86,22 @@ def test_add_product_valid_type(setup_category):
 def test_mixin_confirmation():
     product1 = Product("Продукт1", "Описание продукта", 1200, 10)
     assert repr(product1) == "Product(Продукт1, Описание продукта, 1200, 10)"
+
+
+# Тесты на проверку цены продукта, класс Product
+def test_adding_product_with_zero_quantity():
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен"):
+        product1 = Product("Продукт1", "Описание продукта", 1200, 0)
+
+
+# Тесты для метода average_price класса Category
+def test_average_price_empty_category(empty_category):
+    assert empty_category.average_price() == 0
+
+
+def test_average_price_category_with_products(category_with_products):
+    assert category_with_products.average_price() == (100 + 200) / 2
+
+
+def test_average_price_category_with_zero_price_products(category_with_zero_price_products):
+    assert category_with_zero_price_products.average_price() == 0

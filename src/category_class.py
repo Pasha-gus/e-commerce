@@ -30,3 +30,13 @@ class Category:
     def products_list(self):
         """Выводит список товаров в виде строк в формате 'Название продукта, цена руб. Остаток: шт.'"""
         return "\n".join(str(product) for product in self.__products)
+
+    def average_price(self):
+        try:
+            all_price = 0
+            for product in self.__products:
+                all_price += product.price
+            result = all_price / len(self.__products)
+            return result
+        except ZeroDivisionError:
+            return 0
